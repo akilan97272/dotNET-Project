@@ -1,37 +1,68 @@
-using Microsoft.OpenApi.Models;
+using AICalendar.Shared.Models;
+using AICalendar.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
+// Database
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=aicalendar.db"));
 
-// ✅ Add Swagger/OpenAPI support
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "AI Calendar API",
-        Version = "v1",
-        Description = "API for managing AI-powered calendar features"
-    });
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "AI Calendar API v1");
-        c.RoutePrefix = string.Empty; // ✅ Swagger UI loads at root `/`
-    });
+    app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
+app.MapGet("/", () => "🚀 AI Calendar API running with EF Core!");
+
+// List events
+app.MapGet("/events", async (AppDbContext db) =>
+    await db.Events.ToListAsync());
+
+// Get event by id
+app.MapGet("/events/{id}", async (Guid id, AppDbContext db) =>
+    await db.Events.FindAsync(id) is EventDto ev ? Results.Ok(ev) : Results.NotFound());
+
+// Create event
+app.MapPost("/events", async (EventDto newEvent, AppDbContext db) =>
+{
+    newEvent.Id = Guid.NewGuid();
+    db.Events.Add(newEvent);
+    await db.SaveChangesAsync();
+    return Results.Created($"/events/{newEvent.Id}", newEvent);
+});
+
+// Update event
+app.MapPut("/events/{id}", async (Guid id, EventDto updatedEvent, AppDbContext db) =>
+{
+    var ev = await db.Events.FindAsync(id);
+    if (ev is null) return Results.NotFound();
+
+    ev.Title = updatedEvent.Title;
+    ev.Start = updatedEvent.Start;
+    ev.End = updatedEvent.End;
+    ev.Attendees = updatedEvent.Attendees;
+
+    await db.SaveChangesAsync();
+    return Results.Ok(ev);
+});
+
+// Delete event
+app.MapDelete("/events/{id}", async (Guid id, AppDbContext db) =>
+{
+    var ev = await db.Events.FindAsync(id);
+    if (ev is null) return Results.NotFound();
+
+    db.Events.Remove(ev);
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
 
 app.Run();

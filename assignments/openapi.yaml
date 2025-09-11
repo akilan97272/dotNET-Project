@@ -1,0 +1,47 @@
+openapi: 3.1.0
+info:
+  title: AI Calendar API
+  version: 1.0.0
+  description: Calendar service with events, attendees, reminders
+servers:
+  - url: http://localhost:5000
+paths:
+  /calendars:
+    get:
+      summary: List all calendars
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: Create new calendar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+      responses:
+        "201":
+          description: Created
+  /events:
+    get:
+      summary: List events (with filters)
+      parameters:
+        - name: start
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: end
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: Create an event
+      requestBody:
+        required: true
+        content:
