@@ -19,34 +19,6 @@ An AI-powered scheduling app built with **.NET 9**, **Minimal API**, and **Googl
 
 ---
 
-## 📁 Project Structure
-
-AI-Calendar/
-├── .github/                       # GitHub-specific files (e.g., issue templates, workflows)
-├── assignments/                   # Code for any specific assignments or challenges
-├── contracts/                     # API contracts and definitions
-│   ├── openapi.yaml               # OpenAPI specification for the REST API
-│   ├── calendar.proto             # Protocol Buffer definitions for services
-│   └── schema.graphql             # GraphQL schema definition
-├── docs/                          # Project documentation and notes
-│   └── Day2_README.md             # Specific documentation for Day 2 of the project
-├── src/                           # Main source code directory
-│   ├── Api/                       # The top-level API project
-│   │   ├── appsettings.json       # Configuration file
-│   │   └── Program.cs             # Minimal API entry point
-│   ├── Data/                      # Data access layer
-│   │   ├── Migrations/            # EF Core database migrations
-│   │   └── Repositories/          # Data repositories for CRUD operations
-│   ├── Domain/                    # Business logic and domain models
-│   │   └── EventFactory.cs        # Factory for creating event entities
-│   ├── MCP/                       # Local microservice (e.g., for DB operations)
-│   └── Shared/                    # Shared resources (DTOs, models, validation)
-│       ├── DTOs/                  # Data Transfer Objects
-│       └── Models/                # Shared domain models
-└── AICalendar.sln                 # Visual Studio Solution file
-
----
-
 ## ⚡ Prerequisites
 
 - **.NET 9 SDK** ➡️ [Download Here](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
