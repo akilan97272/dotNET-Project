@@ -32,8 +32,8 @@ An AI-powered scheduling app built with **.NET 9**, **Minimal API**, and **Googl
 1.  **Clone repository**
 
     ```bash
-    git clone [https://github.com/](https://github.com/)<your-username>/assignments.git
-    cd assignments
+    git clone https://github.com/akilan97272/dotNET-Project.git
+    cd dotNET-Project
     ```
 
 2.  **Install NuGet packages**
@@ -68,7 +68,7 @@ An AI-powered scheduling app built with **.NET 9**, **Minimal API**, and **Googl
     dotnet run
     ```
 
-    - API endpoints available at: `https://localhost:5001`
+    - API endpoints available at: `https://localhost:5111`
     - Minimal API examples:
       - **List all events**: `GET /events`
       - **Create new event**: `POST /events`
