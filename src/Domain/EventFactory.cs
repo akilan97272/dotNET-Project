@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using AICalendar.Shared.Models;
 
 namespace AICalendar.Domain
@@ -10,11 +9,11 @@ namespace AICalendar.Domain
         {
             return new EventDto
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid(),      // Make sure EventDto has Id property
                 Title = title,
                 Start = start,
                 End = end,
-                Attendees = attendees.ToList()
+                Attendees = attendees     // directly use the params array
             };
         }
     }

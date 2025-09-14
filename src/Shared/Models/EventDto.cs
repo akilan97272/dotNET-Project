@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
+namespace AICalendar.Shared.Models;
 
-namespace AICalendar.Shared.Models
+public record EventDto
 {
-    public class EventDto
-    {
-        public Guid Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public List<string> Attendees { get; set; } = new();
-    }
+
+    public Guid Id { get; init; } = Guid.NewGuid(); // add this
+    public string Title { get; init; } = null!;
+    public DateTime Start { get; init; }
+    public DateTime End { get; init; }
+    public string[]? Attendees { get; init; }
 }
